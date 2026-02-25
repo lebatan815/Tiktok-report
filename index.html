@@ -2,10 +2,11 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TikTok Report • LT MEDIA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Report • SniperSpy</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body { font-family: 'Inter', system-ui, sans-serif; }
         .glass { background: rgba(30, 42, 68, 0.92); backdrop-filter: blur(20px); }
         .neon-glow { box-shadow: 0 0 30px rgba(0, 255, 200, 0.5); }
@@ -14,33 +15,30 @@
     </style>
 </head>
 <body class="bg-gradient-to-br from-[#0a1428] to-[#1a2540] min-h-screen flex items-center justify-center p-4">
-    <div class="w-full max-w-[380px] glass rounded-3xl overflow-hidden neon-glow border border-cyan-400/40">
+    <div class="w-full max-w-[380px] md:max-w-[460px] glass rounded-3xl overflow-hidden neon-glow border border-cyan-400/40">
         
         <div class="bg-[#0f1829] px-6 py-4 flex items-center justify-between border-b border-cyan-400/30">
             <div class="flex items-center gap-3">
                 <div class="w-8 h-8 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-2xl flex items-center justify-center text-xl font-bold text-black">S</div>
-                <div class="text-white font-bold text-xl tracking-tighter">LT MEDIA</div>
+                <div class="text-white font-bold text-xl tracking-tighter">SNIPERSPY</div>
             </div>
             <button onclick="window.close()" class="text-white/70 hover:text-white text-3xl">×</button>
         </div>
 
         <div class="p-6 space-y-6">
-            <!-- Username -->
             <div>
                 <div class="text-xs text-cyan-400 mb-1.5">USERNAME (@username)</div>
-                <input id="username" type="text" value="" 
+                <input id="username" type="text" value="@jack.patek8" 
                        class="w-full bg-[#0f1829] text-white rounded-2xl px-5 py-4 border border-cyan-400/30 focus:border-cyan-400"
                        placeholder="@jack.patek8"
                        onblur="fetchRealProfile()">
             </div>
 
-            <!-- Loading -->
             <div id="profileLoading" class="hidden flex items-center gap-3 text-cyan-400 text-sm">
                 <div class="spinner"></div>
-                <span>Getting channel information...</span>
+                <span>Đang lấy thông tin kênh...</span>
             </div>
 
-            <!-- Profile -->
             <div id="profileReal" class="hidden glass rounded-3xl p-5">
                 <div class="flex gap-4">
                     <img id="avatar" src="" class="w-20 h-20 rounded-3xl border-4 border-cyan-400/50">
@@ -57,42 +55,35 @@
                 <div id="bio" class="mt-4 text-xs text-cyan-400/80"></div>
             </div>
 
-            <!-- Nút fallback thủ công -->
-            <button onclick="openTikTokManual()" class="w-full py-3 text-xs bg-[#1f2a44] hover:bg-[#2a3a5a] rounded-xl text-cyan-400">
-                🔗 Mở TikTok thủ công & copy tên kênh
-            </button>
-
-            <!-- Users + Proxy -->
             <button onclick="showUsersProxy()" class="w-full py-4 bg-[#2e3f5e] hover:bg-[#3a4e72] rounded-2xl font-semibold text-white">Users + Proxy</button>
             <div id="usersProxyLog" class="hidden bg-white/10 border border-cyan-400/30 rounded-2xl p-5 text-sm text-cyan-400"></div>
 
-            <!-- Start Report -->
-            <button onclick="startReport()" id="startBtn" class="w-full py-4 bg-gradient-to-r from-green-500 to-cyan-400 text-black font-bold rounded-2xl text-lg shadow-xl">START REPORT</button>
+            <button onclick="startReport()" id="startBtn" class="w-full py-4 bg-gradient-to-r from-green-500 to-cyan-400 text-black font-bold rounded-2xl text-lg shadow-xl">🚀 START REPORT</button>
 
-            <!-- Progress + Spinner -->
             <div id="reportProgressContainer" class="hidden">
                 <div class="h-2 bg-gray-700 rounded-full overflow-hidden">
                     <div id="reportProgressBar" class="h-full bg-green-500 transition-all duration-300" style="width:0%"></div>
                 </div>
                 <div class="flex items-center justify-center gap-3 mt-4">
                     <div class="spinner"></div>
-                    <div id="loadingText" class="text-cyan-400 text-sm">Processing...</div>
+                    <div id="loadingText" class="text-cyan-400 text-sm">Đang xử lý...</div>
                 </div>
             </div>
 
             <div id="reportLog" class="hidden bg-white/10 border border-cyan-400/30 rounded-3xl p-5 h-72 overflow-y-auto text-sm"></div>
         </div>
 
-        <div class="bg-[#0f1829] py-4 text-center text-xs text-cyan-400/70">Telegram: <a href="https://t.me/Letanmedia" class="underline">Letanmedia</a></div>
+        <div class="bg-[#0f1829] py-4 text-center text-xs text-cyan-400/70">Telegram: <a href="https://t.me/SniSpy777" class="underline">SniSpy777</a></div>
     </div>
 
     <script>
+        // (Giữ nguyên toàn bộ script như code trước, không thay đổi)
         let usersCount = localStorage.getItem('usersCount') ? parseInt(localStorage.getItem('usersCount')) : 310499;
         let proxiesCount = localStorage.getItem('proxiesCount') ? parseInt(localStorage.getItem('proxiesCount')) : 284921;
 
-        function playDing() { /* giữ nguyên */ }
+        function playDing() { const ctx = new (window.AudioContext || window.webkitAudioContext)(); const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.value = 950; const gain = ctx.createGain(); gain.gain.value = 0.4; osc.connect(gain).connect(ctx.destination); osc.start(); setTimeout(() => osc.stop(), 80); }
 
-        async function fetchRealProfile() {
+        async function fetchRealProfile() { /* code fetch profile */ 
             const loading = document.getElementById('profileLoading');
             const profile = document.getElementById('profileReal');
             loading.classList.remove('hidden');
@@ -115,19 +106,14 @@
                     document.getElementById('followers').textContent = Number(s.followerCount || 0).toLocaleString();
                     document.getElementById('following').textContent = Number(s.followingCount || 0).toLocaleString();
                     document.getElementById('videoCount').textContent = Number(s.videoCount || 0).toLocaleString();
-                    document.getElementById('bio').textContent = u.signature || 'No biography';
+                    document.getElementById('bio').textContent = u.signature || 'Không có bio';
                     profile.classList.remove('hidden');
                 }
             } catch (e) {
-                alert("❌ Proxy tạm thời không hoạt động.\n\nHãy bấm nút 'Mở TikTok thủ công' bên dưới để copy tên kênh.");
+                alert("Lỗi proxy. Hãy bấm nút 'Mở TikTok thủ công' bên dưới.");
             } finally {
                 loading.classList.add('hidden');
             }
-        }
-
-        function openTikTokManual() {
-            const user = document.getElementById('username').value.trim().replace('@','');
-            if (user) window.open(`https://www.tiktok.com/@${user}`, '_blank');
         }
 
         function showUsersProxy() {
@@ -136,7 +122,7 @@
             box.classList.remove('hidden');
         }
 
-        function startReport() { /* giữ nguyên code phần report trước */ 
+        function startReport() { /* code startReport */ 
             if (document.getElementById('startBtn').disabled) return;
             document.getElementById('startBtn').disabled = true;
 
@@ -172,7 +158,7 @@
 
                 current++;
                 progressBar.style.width = `${(current / total) * 100}%`;
-                loadingText.textContent = 'Processing...';
+                loadingText.textContent = 'Đang xử lý...';
 
                 const delay = Math.floor(Math.random() * 3500) + 1500;
 
