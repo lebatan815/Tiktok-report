@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Report • SniperSpy</title>
+    <title>TikTok Report • LT MEDIA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body { font-family: 'Inter', system-ui, sans-serif; }
         .glass { background: rgba(30, 42, 68, 0.92); backdrop-filter: blur(20px); }
         .neon-glow { box-shadow: 0 0 30px rgba(0, 255, 200, 0.5); }
@@ -20,70 +19,99 @@
         <div class="bg-[#0f1829] px-6 py-4 flex items-center justify-between border-b border-cyan-400/30">
             <div class="flex items-center gap-3">
                 <div class="w-8 h-8 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-2xl flex items-center justify-center text-xl font-bold text-black">S</div>
-                <div class="text-white font-bold text-xl tracking-tighter">SNIPERSPY</div>
+                <div class="text-white font-bold text-xl tracking-tighter">LETAN MEDIA</div>
             </div>
             <button onclick="window.close()" class="text-white/70 hover:text-white text-3xl">×</button>
         </div>
 
         <div class="p-6 space-y-6">
+            <!-- Username -->
             <div>
                 <div class="text-xs text-cyan-400 mb-1.5">USERNAME (@username)</div>
-                <input id="username" type="text" value="@jack.patek8" 
+                <input id="username" type="text" value="@tamlinhhuyenbi64" 
                        class="w-full bg-[#0f1829] text-white rounded-2xl px-5 py-4 border border-cyan-400/30 focus:border-cyan-400"
-                       placeholder="@jack.patek8"
+                       placeholder="@username"
                        onblur="fetchRealProfile()">
             </div>
 
+            <!-- Loading -->
             <div id="profileLoading" class="hidden flex items-center gap-3 text-cyan-400 text-sm">
                 <div class="spinner"></div>
-                <span>Đang lấy thông tin kênh...</span>
+                <span>Getting channel information...</span>
             </div>
 
-            <div id="profileReal" class="hidden glass rounded-3xl p-5">
-                <div class="flex gap-4">
-                    <img id="avatar" src="" class="w-20 h-20 rounded-3xl border-4 border-cyan-400/50">
-                    <div class="flex-1">
-                        <div id="displayName" class="text-2xl font-bold text-white"></div>
-                        <div id="usernameShow" class="text-cyan-400"></div>
+            <!-- Profile -->
+            <div id="profileReal" class="hidden glass rounded-3xl p-5 space-y-4">
+                <!-- Avatar -->
+                <div class="flex justify-center">
+                    <div onclick="document.getElementById('avatarUpload').click()" class="cursor-pointer">
+                        <img id="avatar" src="https://picsum.photos/200" class="w-24 h-24 rounded-3xl object-cover border-4 border-cyan-400/50">
+                    </div>
+                    <input type="file" id="avatarUpload" accept="image/*" class="hidden" onchange="uploadAvatar(event)">
+                </div>
+
+                <!-- Tên kênh -->
+                <div class="text-center">
+                    <div onclick="editName()" id="displayName" class="text-2xl font-bold text-white cursor-pointer hover:text-cyan-400"></div>
+                    <div id="usernameShow" class="text-cyan-400 text-sm"></div>
+                </div>
+
+                <!-- Số liệu -->
+                <div class="grid grid-cols-3 gap-4 text-center">
+                    <div><div id="followers" class="font-bold text-white text-2xl"></div><div class="text-xs text-cyan-400/70">Followers</div></div>
+                    <div onclick="editFollowing()" id="followingContainer" class="cursor-pointer">
+                        <div id="following" class="font-bold text-white text-2xl"></div>
+                        <div class="text-xs text-cyan-400/70">Following</div>
+                    </div>
+                    <div onclick="editVideoCount()" id="videoCountContainer" class="cursor-pointer">
+                        <div id="videoCount" class="font-bold text-white text-2xl"></div>
+                        <div class="text-xs text-cyan-400/70">Videos</div>
                     </div>
                 </div>
-                <div class="grid grid-cols-3 gap-4 mt-6 text-center">
-                    <div><div id="followers" class="font-bold text-white text-2xl"></div><div class="text-xs text-cyan-400/70">Followers</div></div>
-                    <div><div id="following" class="font-bold text-white text-2xl"></div><div class="text-xs text-cyan-400/70">Following</div></div>
-                    <div><div id="videoCount" class="font-bold text-white text-2xl"></div><div class="text-xs text-cyan-400/70">Videos</div></div>
+
+                <!-- Bio -->
+                <div onclick="editBio()" id="bioContainer" class="text-xs text-cyan-400/80 text-center cursor-pointer hover:text-cyan-300 border border-transparent hover:border-cyan-400/30 rounded-xl p-2">
+                    <div id="bio"></div>
                 </div>
-                <div id="bio" class="mt-4 text-xs text-cyan-400/80"></div>
             </div>
 
+            <!-- Users + Proxy -->
             <button onclick="showUsersProxy()" class="w-full py-4 bg-[#2e3f5e] hover:bg-[#3a4e72] rounded-2xl font-semibold text-white">Users + Proxy</button>
             <div id="usersProxyLog" class="hidden bg-white/10 border border-cyan-400/30 rounded-2xl p-5 text-sm text-cyan-400"></div>
 
-            <button onclick="startReport()" id="startBtn" class="w-full py-4 bg-gradient-to-r from-green-500 to-cyan-400 text-black font-bold rounded-2xl text-lg shadow-xl">🚀 START REPORT</button>
+            <!-- Start Report -->
+            <button onclick="startReport()" id="startBtn" class="w-full py-4 bg-gradient-to-r from-green-500 to-cyan-400 text-black font-bold rounded-2xl text-lg shadow-xl">START REPORT</button>
 
+            <!-- Progress -->
             <div id="reportProgressContainer" class="hidden">
                 <div class="h-2 bg-gray-700 rounded-full overflow-hidden">
                     <div id="reportProgressBar" class="h-full bg-green-500 transition-all duration-300" style="width:0%"></div>
                 </div>
                 <div class="flex items-center justify-center gap-3 mt-4">
                     <div class="spinner"></div>
-                    <div id="loadingText" class="text-cyan-400 text-sm">Đang xử lý...</div>
+                    <div id="loadingText" class="text-cyan-400 text-sm">Loading...</div>
                 </div>
             </div>
 
             <div id="reportLog" class="hidden bg-white/10 border border-cyan-400/30 rounded-3xl p-5 h-72 overflow-y-auto text-sm"></div>
         </div>
 
-        <div class="bg-[#0f1829] py-4 text-center text-xs text-cyan-400/70">Telegram: <a href="https://t.me/SniSpy777" class="underline">SniSpy777</a></div>
+        <div class="bg-[#0f1829] py-4 text-center text-xs text-cyan-400/70">Telegram: <a href="https://t.me/Tanlemedia" class="underline">LT MEDIA</a></div>
     </div>
 
     <script>
-        // (Giữ nguyên toàn bộ script như code trước, không thay đổi)
         let usersCount = localStorage.getItem('usersCount') ? parseInt(localStorage.getItem('usersCount')) : 310499;
         let proxiesCount = localStorage.getItem('proxiesCount') ? parseInt(localStorage.getItem('proxiesCount')) : 284921;
 
-        function playDing() { const ctx = new (window.AudioContext || window.webkitAudioContext)(); const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.value = 950; const gain = ctx.createGain(); gain.gain.value = 0.4; osc.connect(gain).connect(ctx.destination); osc.start(); setTimeout(() => osc.stop(), 80); }
+        function playDing() {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.value = 950;
+            const gain = ctx.createGain(); gain.gain.value = 0.4;
+            osc.connect(gain).connect(ctx.destination);
+            osc.start(); setTimeout(() => osc.stop(), 80);
+        }
 
-        async function fetchRealProfile() { /* code fetch profile */ 
+        async function fetchRealProfile() {
             const loading = document.getElementById('profileLoading');
             const profile = document.getElementById('profileReal');
             loading.classList.remove('hidden');
@@ -100,7 +128,7 @@
                 if (data.data && data.data.user) {
                     const u = data.data.user;
                     const s = data.data.stats || {};
-                    document.getElementById('avatar').src = u.avatarLarger || u.avatarMedium;
+                    document.getElementById('avatar').src = u.avatarLarger || u.avatarMedium || 'https://picsum.photos/200';
                     document.getElementById('displayName').textContent = u.nickname || username;
                     document.getElementById('usernameShow').textContent = '@' + u.uniqueId;
                     document.getElementById('followers').textContent = Number(s.followerCount || 0).toLocaleString();
@@ -110,10 +138,52 @@
                     profile.classList.remove('hidden');
                 }
             } catch (e) {
-                alert("Lỗi proxy. Hãy bấm nút 'Mở TikTok thủ công' bên dưới.");
+                document.getElementById('avatar').src = 'https://picsum.photos/200';
+                document.getElementById('displayName').textContent = 'user' + Math.floor(Math.random()*900000000 + 100000000);
+                document.getElementById('usernameShow').textContent = '@' + username;
+                document.getElementById('followers').textContent = '0';
+                document.getElementById('following').textContent = '0';
+                document.getElementById('videoCount').textContent = '0';
+                document.getElementById('bio').textContent = 'Tài khoản bị khoá';
+                profile.classList.remove('hidden');
             } finally {
                 loading.classList.add('hidden');
             }
+        }
+
+        function uploadAvatar(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    document.getElementById('avatar').src = ev.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function editName() {
+            const current = document.getElementById('displayName').textContent;
+            const newName = prompt("Nhập tên kênh mới:", current);
+            if (newName !== null && newName !== "") document.getElementById('displayName').textContent = newName;
+        }
+
+        function editFollowing() {
+            const current = document.getElementById('following').textContent;
+            const newVal = prompt("Nhập số Following mới:", current);
+            if (newVal !== null && newVal !== "") document.getElementById('following').textContent = newVal;
+        }
+
+        function editVideoCount() {
+            const current = document.getElementById('videoCount').textContent;
+            const newVal = prompt("Nhập số video mới:", current);
+            if (newVal !== null && newVal !== "") document.getElementById('videoCount').textContent = newVal;
+        }
+
+        function editBio() {
+            const current = document.getElementById('bio').textContent;
+            const newBio = prompt("Nhập bio mới:", current);
+            if (newBio !== null) document.getElementById('bio').textContent = newBio;
         }
 
         function showUsersProxy() {
@@ -122,7 +192,7 @@
             box.classList.remove('hidden');
         }
 
-        function startReport() { /* code startReport */ 
+        function startReport() {
             if (document.getElementById('startBtn').disabled) return;
             document.getElementById('startBtn').disabled = true;
 
